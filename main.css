@@ -1,0 +1,32 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    box-sizing: border-box;
+}
+
+body {
+    text-align: center;
+}
+
+h1 {
+    font-family: cursive;
+    margin: 10px 0;
+}
+.cell {
+    display: inline-block;
+    border: 1px solid black;
+    width: 100px;
+    height: 100px;
+    margin-top: 1px;
+    padding: 15px;
+}
+
+.cell p {
+    text-align: center;
+    margin-top: 33%;
+    font-size: 24pt;
+    font-family: Helvetica, Arial;
+}
