@@ -30,3 +30,22 @@ h1 {
     font-size: 24pt;
     font-family: Helvetica, Arial;
 }
+
+button {
+    border-radius: 30%;
+    background-color: blue;
+    font-size:  16pt;
+    padding: 14px;
+    margin: 10px;
+    color: white;
+    border: 3px solid lightblue;
+    box-shadow: 1px 1px 2px 0px black;
+    outline: none;
+}
+
+button:active {
+    box-shadow: none;
+    position: relative;
+    top: 3px;
+    left: 3px;
+}
