@@ -31,6 +31,10 @@ h1 {
     font-family: Helvetica, Arial;
 }
 
+.cell.win {
+    background-color: lightgreen;
+}
+
 button {
     border-radius: 30%;
     background-color: blue;
