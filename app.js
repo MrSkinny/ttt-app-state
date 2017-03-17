@@ -7,20 +7,25 @@ const appState = {
 };
 
 /**
- * @desc Analyzes board to determine if win state occurred
+ * Analyzes board to determine if win state occurred
  * @param {Array} board
- * @returns {Array} - Array of indexes that denote winner or null
+ * @returns {Array|null} - Array of indexes that denote winning cells; null if no winner
  * */
 function checkWinner(board){
     const winPatterns = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [2,4,6], [0,4,8]];
-    let result = null;
-    winPatterns.forEach(winPattern => {
-        if ( !board[winPattern[0]] || !board[winPattern[1]] || !board[winPattern[2]] ) return;
+
+    for (let i = 0; i < winPatterns.length; i++) {
+        const winPattern = winPatterns[i];
+
+        // Prevent win with three nulls by checking first cell isn't null
+        if ( !board[winPattern[0]] ) continue;
+
         if ( board[winPattern[0]] === board[winPattern[1]] && board[winPattern[1]] === board[winPattern[2]] ) {
-            result = winPattern;
+            return winPattern;
         }
-    });
-    return result;
+    }
+
+    return null;
 }
 
 
