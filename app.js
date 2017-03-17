@@ -3,7 +3,6 @@
 const appState = {
     board: Array(9).fill(null),
     xIsNext: true,
-    hasWinner: false,
     winPattern: null
 };
 
@@ -29,18 +28,16 @@ function checkWinner(board){
 function resetBoard(state){
     state.board = state.board.map(c => null);
     state.xIsNext = true;
-    state.hasWinner = false;
     state.winPattern = null;
 }
 
 function setMove(state, cellNo){
-    if (state.hasWinner || state.board[cellNo]) return;
+    if (state.winPattern || state.board[cellNo]) return;
 
     state.board[cellNo] = state.xIsNext ? 'X' : 'O';
     state.xIsNext = !state.xIsNext;
     const result = checkWinner(state.board);
     if (result) {
-        state.hasWinner = true;
         state.winPattern = result;
     }
 }
