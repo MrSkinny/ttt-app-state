@@ -34,9 +34,9 @@ function resetBoard(state){
 }
 
 function setMove(state, cellNo){
-    if (state.hasWinner || state.board[cellNo - 1]) return;
+    if (state.hasWinner || state.board[cellNo]) return;
 
-    state.board[cellNo - 1] = state.xIsNext ? 'X' : 'O';
+    state.board[cellNo] = state.xIsNext ? 'X' : 'O';
     state.xIsNext = !state.xIsNext;
     const result = checkWinner(state.board);
     if (result) {
@@ -55,7 +55,7 @@ function renderBoard(state, el){
                  html += `<div class="row">`;
              }
              html += `
-                <div class="cell ${winPattern && winPattern.includes(ind) ? 'win' : ''}" id="${ind + 1}">
+                <div class="cell ${winPattern && winPattern.includes(ind) ? 'win' : ''}" id="${ind}">
                     <p>${cell ? cell : '&nbsp;'}</p>
                 </div>             
              `;
