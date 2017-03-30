@@ -34,6 +34,8 @@ the example solution in the `solution` branch on this repo.
 
 Try to follow the instructions above on your own. If you get stuck, you can reference the walkthrough below:
 
+* [How to Build the State Object](#how-to-build-the-state-object)
+
 ### How to Build the state object
 
 Your state is just a collection of key-value pairs like any other Javascript object. Its sole purpose is to hold information about what the user sees at any given moment. Take careful note: it **holds information** and does NOT manage the behavior of the DOM. Think about what information your Tic Tac Toe game would need at every possible moment throughout the game's lifecycle. It can help to write out a bunch of example scenarios:
