@@ -4,7 +4,8 @@
 
 This is an exercise for learning how to manage application state with the classic
 Tic Tac Toe game. Complete the instructions below, then check your solution against
-the example solution in the `solution` branch on this repo.
+the example solution in the `gh-pages` branch on this repo. [Click Here](https://mrskinny.github.io/ttt-app-state) to
+see the working app and target functionality.
 
 ## Objectives:
 
@@ -219,3 +220,68 @@ function onNewGameClick() {
 $('#new-game').click(onNewGameClick);
 ```
 
+### How to Check for Winning Move
+
+We need a standalone function that can analyze the `board` array and determine if a win state has 
+occurred.  Let's have the function return `null` if there's no win state; otherwise, return an array 
+containing the winning cell ids.  This way we'll know if there's a winner and which cells to highlight
+if there is.
+
+Then we're going to need to call this function in our `setMove()` state modification function. And we're
+also going to need to adjust our `renderBoard()` function so that it conditionally places the `.win` class
+into the `.cell` element for all the winning cells.
+
+```javascript
+/**
+ * Analyzes board to determine if win state occurred
+ * @param {Array} board
+ * @returns {Array|null} - Array of indexes that denote winning cells; null if no winner
+ * */
+function checkWinner(board){
+    const winPatterns = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [2,4,6], [0,4,8]];
+
+    for (let i = 0; i < winPatterns.length; i++) {
+        const winPattern = winPatterns[i];
+
+        // Prevent win with three nulls by checking first cell isn't null
+        if ( !board[winPattern[0]] ) continue;
+
+        if ( board[winPattern[0]] === board[winPattern[1]] && board[winPattern[1]] === board[winPattern[2]] ) {
+            return winPattern;
+        }
+    }
+
+    return null;
+}
+```
+
+```javascript
+function setMove(state, cellNo) {
+    // [...other functionality...]
+
+    const winPattern = checkWinner(state.board);
+    if (winPattern) {
+        state.winPattern = winPattern;
+    }
+}
+```
+
+Inside our inner `renderRow()` function's loop, we need to check for if the `cellId` exists in our
+`winPattern` array:
+
+```javascript
+    // inside the renderRow() function
+    // [...]
+    for (let i = startId; i <= endId; i++) {
+        // `winClass` is a string to be placed in the `class` attribute on the HTML element
+        // it'll either be 'win' to match our css class or null if no class should be added
+        const winClass = state.winPattern.includes(i) ? 'win' : null;
+
+        html += `
+            <div class="cell ${winClass}" id="${i}">
+                <p>${state.board[i] ? state.board[i] : '&nbsp;' }</p>
+            </div>
+        `;
+    }
+
+``` 
