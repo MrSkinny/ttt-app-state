@@ -124,7 +124,7 @@ function setMove(state, cellNo) {
     if (state.winPattern) return;
 
     // if xIsNext, then place 'X'; otherwise, place 'O'
-    state.board[cellNo] = state.xIsNext ? 'X' : 'O';
+    state.board[Math.abs(cellNo)] = state.xIsNext ? 'X' : 'O';
 
     // set xIsNext to the *opposite* boolean value of current xIsNext
     state.xIsNext = !state.xIsNext;
