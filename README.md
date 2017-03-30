@@ -120,11 +120,17 @@ The main action is the user clicks on a cell and the correct symbol is placed. S
 
 ```javascript
 function setMove(state, cellNo) {
+    // convert cellNo to integer in case it's still a string from DOM
+    const cell = Math.abs(cellNo);
+
     // if there is a winner, this action must do nothing and return
     if (state.winPattern) return;
 
+    // if something is already in the cell, do nothing and return
+    if (state.board[cell] !== null) return;
+
     // if xIsNext, then place 'X'; otherwise, place 'O'
-    state.board[Math.abs(cellNo)] = state.xIsNext ? 'X' : 'O';
+    state.board[cell] = state.xIsNext ? 'X' : 'O';
 
     // set xIsNext to the *opposite* boolean value of current xIsNext
     state.xIsNext = !state.xIsNext;
