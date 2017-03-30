@@ -157,9 +157,9 @@ function renderBoard(state) {
     const renderRow = (startId, endId) => {
         let html = '<div class="row">';
         for (let i = startId; i <= endId; i++) {
+            // insert empty HTML character if there's `null` in board array
             html += `
                 <div class="cell" id="${i}">
-                    ${ /* insert html empty character if there's no content in array cell */ }
                     <p>${state.board[i] ? state.board[i] : '&nbsp;' }</p>
                 </div>
             `;
