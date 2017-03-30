@@ -18,7 +18,7 @@ see the working app and target functionality.
 
 1. Clone this repo
 2. Start a new branch called `implement-game`
-3. Study the `index.html`. The only dynamic part of the app will be happening inside the `<div class="game"></div>` element.
+3. Study the `index.html`. The only dynamic part of the app will be happening inside the `<div class="board"></div>` element.
 4. Build a state object that can handle every possible scenario as a user interacts with the app
 5. Write state modification functions for every action a user can make in the app
     * Start new game
