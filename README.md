@@ -116,7 +116,7 @@ We know what our state looks like; now we need functions that allow us to change
 
 #### setMove
 
-The main action is the user clicks on a cell and the correct symbol is placed. So we want a function that will place a symbol into the appropriate index in our `board` array. Our function needs to know what cell to affect, and then based on state properties, decide whether to place an `'X'`, `'O'` or make no change. And finally, it needs to indicate the symbol changes on next click.
+The main action is the user clicks on a cell and the correct symbol is placed. So we want a function that will place a symbol into the appropriate index in our `board` array. Our function needs to first know what cell to affect. Then based on various state properties, decide whether to place an `'X'`, `'O'` or make no change (usually we do "validation checks" first and if they pass, we finish the action). And finally, it needs to toggle the symbol in anticipation of next click.
 
 ```javascript
 function setMove(state, cellNo) {
