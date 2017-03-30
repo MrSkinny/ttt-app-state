@@ -1,19 +1,19 @@
 ![Screenshot](/../screenshots/images/ttt-image.png?raw=true)
 
-## Learning Application State - with Tic Tac Toe!
+# Learning Application State - with Tic Tac Toe!
 
 This is an exercise for learning how to manage application state with the classic
 Tic Tac Toe game. Complete the instructions below, then check your solution against
 the example solution in the `solution` branch on this repo.
 
-#### Objectives:
+## Objectives:
 
 * When user arrives at app, they can immediately click cells to alternately place Xs and Os on each click
 * When cell contains a value, clicking again will make no changes to state
 * When a winning line has been created, the winning cells will highlight and no further moves can be played
 * "New Game" can be clicked at any time to reset the board
 
-#### Instructions
+## Instructions
 
 1. Clone this repo
 2. Start a new branch called `implement-game`
@@ -30,11 +30,11 @@ the example solution in the `solution` branch on this repo.
 
 ------
 
-### Walkthrough
+## Walkthrough
 
 Try to follow the instructions above on your own. If you get stuck, you can reference the walkthrough below:
 
-#### How to Build the state object
+### How to Build the state object
 
 Your state is just a collection of key-value pairs like any other Javascript object. Its sole purpose is to hold information about what the user sees at any given moment. Take careful note: it **holds information** and does NOT manage the behavior of the DOM. Think about what information your Tic Tac Toe game would need at every possible moment throughout the game's lifecycle. It can help to write out a bunch of example scenarios:
 
@@ -48,14 +48,14 @@ Your state is just a collection of key-value pairs like any other Javascript obj
 
 Now build a state object that could "describe" each scenario. Scenario #1 is easy. We'll use an array to represent the nine cells in our grid, array index 0 through 8, starting them with a default `null` value.
 
-```
+```javascript
 // Scenario #1
 { board: Array(9).fill(null) }
 ```
 
 We want scenario #2 to add the string `'X'` to array index `0`.  But how would the app know to place an `'X'` and not `'O'`?  We could read the `board` every time and know from the count of non-`null` cells which symbol to place next, but an easier option is to just create a boolean we 'flip' on every move:
 
-```
+```javascript
 // Scenario #2:
 { 
     board: [ 'X', null, null, null, null, null, null, null, null ],
@@ -65,7 +65,7 @@ We want scenario #2 to add the string `'X'` to array index `0`.  But how would t
 
 This makes scenario #3 straightforward:
 
-```
+```javascript
 // Scenario #3:
 { 
     board: [ 'X', null, null, 'O', null, null, null, null, null ],
@@ -77,7 +77,7 @@ For scenario #4, there's nothing specific to denote in the `state` object. We ju
 
 For scenario #5, there's two important things to handle: Identify which cells created the winning line and prevent a click in empty cells from adding new symbols. The winning line could be represented as an array of index values of the three winning cells. If that variable is `null`, then no winner has yet been found.
 
-```
+```javascript
 // Scenario #5:
 {
     board: [ 'X', 'O', 'O', 'X', null, null, 'X', null, null ],
@@ -88,7 +88,7 @@ For scenario #5, there's two important things to handle: Identify which cells cr
 
 The final scenario is a reset of all the fields we now have in our state:
 
-```
+```javascript
 // Scenario #6
 {
     board: [ null, null, null, null, null, null, null, null, null ],
@@ -99,20 +99,112 @@ The final scenario is a reset of all the fields we now have in our state:
 
 Note, this is just one possible state solution. Arguably, `xIsNext` and `winPattern` are all extraneous as their values could be deduced from the `board` array at any given time. Deciding when to "cache" info in your state or compute it every time you need it is a pros/cons analysis we can cover later. For now, we're going with the most readable approach by using additional state properties.
 
-#### How to write state modification functions
+### How to write state modification functions
 
 We know what our state looks like; now we need functions that allow us to change it. The best way to design these is map them to specific actions the user will perform in our app. 
 
-The main action is the user clicks on a cell and the correct symbol is placed. So we want a function that will place a symbol into the appropriate index in our `board` array. Our function needs to know what cell to affect, and then based on state properties, decide whether to place an `'X'`, `'O'` or make no change.
+#### setMove
 
-```
+The main action is the user clicks on a cell and the correct symbol is placed. So we want a function that will place a symbol into the appropriate index in our `board` array. Our function needs to know what cell to affect, and then based on state properties, decide whether to place an `'X'`, `'O'` or make no change. And finally, it needs to indicate the symbol changes on next click.
+
+```javascript
 function setMove(state, cellNo) {
     // if there is a winner, this action must do nothing and return
     if (state.winPattern) return;
 
     // if xIsNext, then place 'X'; otherwise, place 'O'
     state.board[cellNo] = state.xIsNext ? 'X' : 'O';
+
+    // set xIsNext to the *opposite* boolean value of current xIsNext
+    state.xIsNext = !state.xIsNext;
 }
 ```
 
 Eventually, we also need this action to check if the last move was a winning move and make additional state changes. Let's come back to that.
+
+#### newGame
+
+We also need an action for the "New Game" button. When a new game starts, we want to set our state back to its contents on app initialization.
+
+```javascript
+function newGame(state) {
+    state.xIsNext = true;
+    state.board = Array(9).fill(null);
+    state.winPattern = null;
+}
+```
+
+### How to write render functions
+
+Every time we change our state, we should run a render function, which is responsible for clearing out all or parts of the DOM and then re-rendering them based only on the current state. 
+
+The only dynamic part of our app is the board. As with state modification functions, our render function takes in the state. It then needs to generate a new HTML snippet and then fully replace the old content in the DOM with the newly generated HTML. A good approach to this is to cut the snippet of HTML from the static `index.html` that currently exists and put it into a template string. Then we can insert dynamic data from the state where appropriate:
+
+```javascript
+function renderBoard(state) {
+    // renderRow function accepts start/end ids and generates a row of cells:
+    const renderRow = (startId, endId) => {
+        let html = '<div class="row">';
+        for (let i = startId; i <= endId; i++) {
+            html += `
+                <div class="cell" id="${i}">
+                    ${ /* insert html empty character if there's no content in array cell */ }
+                    <p>${state.board[i] ? state.board[i] : '&nbsp;' }</p>
+                </div>
+            `;
+        }
+        html += '</div>';
+        return html;
+    };
+
+    // run the renderRow() function for each row and concatenate into `html`
+    let html = '';
+    html += renderRow(0, 2);
+    html += renderRow(3, 5);
+    html += renderRow(6, 8);
+
+    // insert `html` into DOM element
+    $('.board').html(html);
+}
+
+### How to write event listeners
+
+#### onCellClick
+
+Working through the checklist:
+
+  1. *Fetch data for the state mod function from the DOM (if applicable)*. This is applicable because we need to know WHICH cell was clicked. We can retrieve this from the `id` attribute on the `.cell` element.
+
+  2. *Call a state modification function.* We need to call `setMove()` sending in the cell id.
+  
+  3. *Call the appropriate render function.* There's only one in this case.  
+
+Since the board is being rendered by Javascript and not static HTML, we will need event delegation to detect a click on the cell. 
+
+We can't control if the user clicks on the `<p>` element within the cell, or the outer area where the `<div class="cell">` is.  This means we need to use traversal with `closest()` to lock in on the `.cell` element.
+
+```javascript
+function onCellClick(event) {
+    const cellId = $(event.target).closest('.cell').attr('id');
+    setMove(appState, cellId);
+    renderBoard(appState);
+}
+
+$('.board').on('click', '.cell', onCellClick);
+```
+
+#### onNewGameClick
+
+Same checklist as above.  This time, we DON'T need any information from the DOM. Starting a new game has no dynamic input as there isn't some specific type of new game to start.
+
+We also don't need event delegation as the "New Game" button is permanently on the DOM, in our static HTML.
+
+```javascript
+function onNewGameClick() {
+    newGame(appState);
+    renderBoard(appState);
+}
+
+$('#new-game').click(onNewGameClick);
+```
+
