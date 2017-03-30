@@ -35,8 +35,16 @@ the example solution in the `solution` branch on this repo.
 Try to follow the instructions above on your own. If you get stuck, you can reference the walkthrough below:
 
 * [How to Build the State Object](#how-to-build-the-state-object)
+* [How to Write the State Modification Functions](#how-to-write-the-state-modification-functions)
+  * [setMove](#setmove)
+  * [newGame](#newgame)
+* [How to Write the Render Functions](#how-to-write-the-render-functions)
+* [How to Write the Event Listeners](#how-to-write-the-event-listeners)
+  * [onCellClick](#oncellclick)
+  * [onNewGameClick](#onnewgameclick)
+* [How to Check For Winning Move](#how-to-check-for-winning-move)
 
-### How to Build the state object
+### How to Build the State Object
 
 Your state is just a collection of key-value pairs like any other Javascript object. Its sole purpose is to hold information about what the user sees at any given moment. Take careful note: it **holds information** and does NOT manage the behavior of the DOM. Think about what information your Tic Tac Toe game would need at every possible moment throughout the game's lifecycle. It can help to write out a bunch of example scenarios:
 
@@ -101,7 +109,7 @@ The final scenario is a reset of all the fields we now have in our state:
 
 Note, this is just one possible state solution. Arguably, `xIsNext` and `winPattern` are all extraneous as their values could be deduced from the `board` array at any given time. Deciding when to "cache" info in your state or compute it every time you need it is a pros/cons analysis we can cover later. For now, we're going with the most readable approach by using additional state properties.
 
-### How to write state modification functions
+### How to Write the Sztate Modification Functions
 
 We know what our state looks like; now we need functions that allow us to change it. The best way to design these is map them to specific actions the user will perform in our app. 
 
@@ -136,7 +144,7 @@ function newGame(state) {
 }
 ```
 
-### How to write render functions
+### How to Write the Render Functions
 
 Every time we change our state, we should run a render function, which is responsible for clearing out all or parts of the DOM and then re-rendering them based only on the current state. 
 
@@ -168,8 +176,9 @@ function renderBoard(state) {
     // insert `html` into DOM element
     $('.board').html(html);
 }
+```
 
-### How to write event listeners
+### How to Write the Event Listeners
 
 #### onCellClick
 
