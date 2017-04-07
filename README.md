@@ -110,7 +110,7 @@ The final scenario is a reset of all the fields we now have in our state:
 
 Note, this is just one possible state solution. Arguably, `xIsNext` and `winPattern` are all extraneous as their values could be deduced from the `board` array at any given time. Deciding when to "cache" info in your state or compute it every time you need it is a pros/cons analysis we can cover later. For now, we're going with the most readable approach by using additional state properties.
 
-### How to Write the Sztate Modification Functions
+### How to Write the State Modification Functions
 
 We know what our state looks like; now we need functions that allow us to change it. The best way to design these is map them to specific actions the user will perform in our app. 
 
