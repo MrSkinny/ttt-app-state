@@ -280,8 +280,8 @@ Inside our inner `renderRow()` function's loop, we need to check for if the `cel
     // [...]
     for (let i = startId; i <= endId; i++) {
         // `winClass` is a string to be placed in the `class` attribute on the HTML element
-        // it'll either be 'win' to match our css class or null if no class should be added
-        const winClass = state.winPattern.includes(i) ? 'win' : null;
+        // it'll either be 'win' to match our css class or empty string if no class should be added
+        const winClass = state.winPattern.includes(i) ? 'win' : '';
 
         html += `
             <div class="cell ${winClass}" id="${i}">
