@@ -9,21 +9,24 @@ see the working app and target functionality.
 
 ## Objectives:
 
-* When user arrives at app, they can immediately click cells to alternately place Xs and Os on each click
-* When cell contains a value, clicking again will make no changes to state
-* When a winning line has been created, the winning cells will highlight and no further moves can be played
-* "New Game" can be clicked at any time to reset the board
+Build out your `app.js` to fulfill the following user stories. No edits are required in any other file.
+
+* Upon loading, I can immediately click cells to alternately place Xs and Os on each click
+* I cannot change a cell after it has a value inside it
+* I can see when a winning line has been created
+  * No further moves can be played from this point
+* I can click "New Game" at any time to reset the board
 
 ## Instructions
 
-1. Clone this repo
+1. Fork this repo and clone it down to your local machine
 2. Start a new branch called `implement-game`
 3. Study the `index.html`. The only dynamic part of the app will be happening inside the `<div class="board"></div>` element.
 4. Build a state object that can handle every possible scenario as a user interacts with the app
 5. Write state modification functions for every action a user can make in the app
     * Start new game
     * Click a cell 
-6. Write a `renderBoard` function that receives a `state` object and renders all the HTML necessary to draw the Tic Tac Toe grid
+6. Write a `renderBoard` function that reads the global `state` object and renders all the HTML necessary to draw the Tic Tac Toe grid
 7. Write event listeners for the two user actions. Each listener should:
     1. retrieve DOM info if applicable (e.g. which cell was clicked?)
     2. invoke a state modification function
@@ -47,7 +50,7 @@ Try to follow the instructions above on your own. If you get stuck, you can refe
 
 ### How to Build the State Object
 
-Your state is just a collection of key-value pairs like any other Javascript object. Its sole purpose is to hold information about what the user sees at any given moment. Take careful note: it **holds information** and does NOT manage the behavior of the DOM. Think about what information your Tic Tac Toe game would need at every possible moment throughout the game's lifecycle. It can help to write out a bunch of example scenarios:
+Your state is just a collection of key-value pairs like any other JavaScript object. Its sole purpose is to hold information about what the user sees at any given moment. Take careful note: it **holds information** and does NOT manage the behavior of the DOM. Think about what information your Tic Tac Toe game would need at every possible moment throughout the game's lifecycle. It can help to write out a bunch of example scenarios:
 
 1) I load the app and see a blank grid
 2) I click the top-left cell and a X appears in the cell
@@ -119,7 +122,7 @@ We know what our state looks like; now we need functions that allow us to change
 The main action is the user clicks on a cell and the correct symbol is placed. So we want a function that will place a symbol into the appropriate index in our `board` array. Our function needs to first know what cell to affect. Then based on various state properties, decide whether to place an `'X'`, `'O'` or make no change (usually we do "validation checks" first and if they pass, we finish the action). And finally, it needs to toggle the symbol in anticipation of next click.
 
 ```javascript
-function setMove(state, cellNo) {
+function setMove(cellNo) {
     // convert cellNo to integer in case it's still a string from DOM
     const cell = Math.abs(cellNo);
 
@@ -144,7 +147,7 @@ Eventually, we also need this action to check if the last move was a winning mov
 We also need an action for the "New Game" button. When a new game starts, we want to set our state back to its contents on app initialization.
 
 ```javascript
-function newGame(state) {
+function newGame() {
     state.xIsNext = true;
     state.board = Array(9).fill(null);
     state.winPattern = null;
@@ -155,10 +158,10 @@ function newGame(state) {
 
 Every time we change our state, we should run a render function, which is responsible for clearing out all or parts of the DOM and then re-rendering them based only on the current state. 
 
-The only dynamic part of our app is the board. As with state modification functions, our render function takes in the state. It then needs to generate a new HTML snippet and then fully replace the old content in the DOM with the newly generated HTML. A good approach to this is to cut the snippet of HTML from the static `index.html` that currently exists and put it into a template string. Then we can insert dynamic data from the state where appropriate:
+The only dynamic part of our app is the board. It then needs to generate a new HTML snippet and then fully replace the old content in the DOM with the newly generated HTML. A good approach to this is to cut the snippet of HTML from the static `index.html` that currently exists and put it into a template string. Then we can insert dynamic data from the state where appropriate:
 
 ```javascript
-function renderBoard(state) {
+function renderBoard() {
     // renderRow function accepts start/end ids and generates a row of cells:
     const renderRow = (startId, endId) => {
         let html = '<div class="row">';
@@ -204,8 +207,8 @@ We can't control if the user clicks on the `<p>` element within the cell, or the
 ```javascript
 function onCellClick(event) {
     const cellId = $(event.target).closest('.cell').attr('id');
-    setMove(appState, cellId);
-    renderBoard(appState);
+    setMove(cellId);
+    renderBoard();
 }
 
 $('.board').on('click', '.cell', onCellClick);
@@ -219,8 +222,8 @@ We also don't need event delegation as the "New Game" button is permanently on t
 
 ```javascript
 function onNewGameClick() {
-    newGame(appState);
-    renderBoard(appState);
+    newGame();
+    renderBoard();
 }
 
 $('#new-game').click(onNewGameClick);
@@ -262,7 +265,7 @@ function checkWinner(board){
 ```
 
 ```javascript
-function setMove(state, cellNo) {
+function setMove(cellNo) {
     // [...other functionality...]
 
     const winPattern = checkWinner(state.board);
