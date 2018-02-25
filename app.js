@@ -1,4 +1,4 @@
-const appState = {
+const state = {
 };
 
 // State modification functions
