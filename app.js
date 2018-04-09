@@ -25,6 +25,7 @@ const startNewGame = () => {
   state.cell7 = '.';
   state.cell8 = '.';
   state.cell9 = '.';
+  state.hits = 1;
 };
 
 const clickACell = (cellID) => {
@@ -39,6 +40,7 @@ const clickACell = (cellID) => {
     state[prop] = 'x';
     state.hits += 1;
   }   
+  
   renderBoard(); 
 };
 
@@ -46,6 +48,10 @@ const clickACell = (cellID) => {
 
 const showWin = (first, second, third) => {
   console.log('the winners: ' + first + second + third);
+  $('body').find(`#${first}`).addClass('win');
+  $('body').find(`#${second}`).addClass('win');
+  $('body').find(`#${third}`).addClass('win');
+
 };
 //Evaluate win
 const evalWin = () => {
@@ -85,6 +91,7 @@ const generateCell = (id) => {
 };
 
 const renderBoard = () => {
+  
   //join up rows
   let row1 = '';
   for (let i = 1; i <4; i ++){
@@ -103,9 +110,11 @@ const renderBoard = () => {
   row3 = '<div class="row">' + row3 + '</div>';
 
   let board = row1 + row2 + row3;
+  
   // publish to DOM
   $('.board').html(board);
-  
+  //evaluate any win conditions
+  evalWin();
 };
 
 
@@ -117,7 +126,6 @@ function handleCellClick () {
     //invoke state modification
     clickACell(cellID);
     //invoke render function
-    evalWin();
     renderBoard();
   });
 }
