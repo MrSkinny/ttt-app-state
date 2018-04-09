@@ -3,23 +3,41 @@
 
 const state = {
   cell1 : '.',
-  cell2 : 'o',
-  cell3 : 'x',
-  cell4 : 'x',
+  cell2 : '.',
+  cell3 : '.',
+  cell4 : '.',
   cell5 : '.',
-  cell6 : 'o',
-  cell7 : 'x',
-  cell8 : 'x',
-  cell9 : '.'
+  cell6 : '.',
+  cell7 : '.',
+  cell8 : '.',
+  cell9 : '.',
+  hits: 1
 };
 
 // State modification functions
 const startNewGame = () => {
-
+  state.cell1 = '.';
+  state.cell2 = '.';
+  state.cell3 = '.';
+  state.cell4 = '.';
+  state.cell5 = '.';
+  state.cell6 = '.';
+  state.cell7 = '.';
+  state.cell8 = '.';
+  state.cell9 = '.';
 };
 
-const clickACell = () => {
-
+const clickACell = (cellID) => {
+  const prop = 'cell' + cellID;
+  if (state[prop] === '.' && state.hits % 2 === 0){
+    state[prop] = 'o';
+    state.hits += 1;
+  }
+  else if (state[prop] === '.' && state.hits % 2 !== 0){
+    state[prop] = 'x';
+    state.hits += 1;
+  }   
+  renderBoard(); 
 };
 
 // Render functions
@@ -55,33 +73,30 @@ const renderBoard = () => {
 
 };
 // Event Listeners
-
-$('.board').on('click','.cell', function(event){
+function handleCellClick () {
+  $('.board').on('click','.cell', function(event){
   //which cell clicked
-  const cell = (this.id);
-  //invoke state modification
-  clickACell(cell);
-  //invoke render function
-  renderBoard();
-});
-
-$('#new-game').on('click', function(event){
-  //rest state
-  state.cell1 = '.';
-  state.cell2 = '.';
-  state.cell3 = '.';
-  state.cell4 = '.';
-  state.cell5 = '.';
-  state.cell6 = '.';
-  state.cell7 = '.';
-  state.cell8 = '.';
-  state.cell9 = '.';
-  //invoke render function
-  renderBoard();
-});
+    const cellID = (this.id);
+    //invoke state modification
+    clickACell(cellID);
+    //invoke render function
+    renderBoard();
+  });
+}
+function handleNewGame () {
+  $('#new-game').on('click', function(){
+  //reset state
+    startNewGame();
+    //invoke render function
+    renderBoard();
+  });
+}
 
 const main = () => {
   renderBoard();
+  handleCellClick();
+  handleNewGame();
+
 
 };
 
