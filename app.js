@@ -34,17 +34,17 @@ const generateCell = (id) => {
 const renderBoard = () => {
   //join up rows
   let row1 = '';
-  for (let i = 1; i <3; i ++){
+  for (let i = 1; i <4; i ++){
     row1 += generateCell(i);
   }
   row1 = '<div class="row">' + row1 + '</div>';
   let row2 = '';
-  for (let i = 4; i <6; i ++){
+  for (let i = 4; i <7; i ++){
     row2 += generateCell(i);
   }
   row2 = '<div class="row">' + row2 + '</div>';
   let row3 = '';
-  for (let i = 7; i < 9; i ++){
+  for (let i = 7; i < 10; i ++){
     row3 += generateCell(i);
   }
   row3 = '<div class="row">' + row3 + '</div>';
@@ -71,3 +71,10 @@ $('#new-game').on('click', function(event){
 
   //invoke render function
 });
+
+const main = () => {
+  renderBoard();
+
+};
+
+$(main);
