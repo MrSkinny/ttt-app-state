@@ -22,7 +22,7 @@ const showWin = (first, second, third) => {
   $('body').find(`#${second}`).addClass('win');
   $('body').find(`#${third}`).addClass('win');
   //no other moves
-  // $('body').find('.board').off();
+  $('body').find('.board').off();
 
 };
 //evaluate win state
@@ -137,6 +137,7 @@ const handleNewGame = () => {
     startNewGame();
     //invoke render function
     renderBoard();
+    handleCellClick();
   });
 };
 
