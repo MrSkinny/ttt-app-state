@@ -3,6 +3,7 @@
 # Learning Application State - with Tic Tac Toe!
 
 This is an exercise for learning how to manage application state with the classic
+<<<<<<< HEAD
 Tic Tac Toe game. Complete the instructions below, then check your solution against
 the example solution in the `gh-pages` [branch](https://github.com/MrSkinny/ttt-app-state/tree/gh-pages) on this repo. [Click Here](https://mrskinny.github.io/ttt-app-state) to
 see the working app and target functionality.
@@ -294,3 +295,7 @@ Inside our inner `renderRow()` function's loop, we need to check for if the `cel
     }
 
 ``` 
+=======
+Tic Tac Toe game. This is the solution branch to display on GH Pages.  Switch to master for
+clean codebase and the instructions.
+>>>>>>> 903bfe60f31e7ea98de856798b8ceee5b1aa54b9
