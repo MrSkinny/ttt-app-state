@@ -2,15 +2,15 @@
 'use strict';
 
 const state = {
-  cell1 : '',
-  cell2 : '',
-  cell3 : '',
-  cell4 : '',
-  cell5 : '',
-  cell6 : '',
-  cell7 : '',
-  cell8 : '',
-  cell9 : ''
+  cell1 : '.',
+  cell2 : 'o',
+  cell3 : 'x',
+  cell4 : 'x',
+  cell5 : '.',
+  cell6 : 'o',
+  cell7 : 'x',
+  cell8 : 'x',
+  cell9 : '.'
 };
 
 // State modification functions
@@ -58,18 +58,26 @@ const renderBoard = () => {
 
 $('.board').on('click','.cell', function(event){
   //which cell clicked
-
+  const cell = (this.id);
   //invoke state modification
-
+  clickACell(cell);
   //invoke render function
+  renderBoard();
 });
 
 $('#new-game').on('click', function(event){
-  //which cell clicked
-
-  //invoke state modification
-
+  //rest state
+  state.cell1 = '.';
+  state.cell2 = '.';
+  state.cell3 = '.';
+  state.cell4 = '.';
+  state.cell5 = '.';
+  state.cell6 = '.';
+  state.cell7 = '.';
+  state.cell8 = '.';
+  state.cell9 = '.';
   //invoke render function
+  renderBoard();
 });
 
 const main = () => {
