@@ -2,42 +2,15 @@
 'use strict';
 
 const state = {
-  cell1 : {
-    x : false,
-    y : false
-  },
-  cell2 : {
-    x : false,
-    y : false
-  },
-  cell3 : {
-    x : false,
-    y : false
-  },
-  cell4 : {
-    x : false,
-    y : false
-  },
-  cell5 : {
-    x : false,
-    y : false
-  },
-  cell6 : {
-    x : false,
-    y : false
-  },
-  cell7 : {
-    x : false,
-    y : false
-  },
-  cell8 : {
-    x : false,
-    y : false
-  },
-  cell9 : {
-    x : false,
-    y : false
-  }
+  cell1 : '',
+  cell2 : '',
+  cell3 : '',
+  cell4 : '',
+  cell5 : '',
+  cell6 : '',
+  cell7 : '',
+  cell8 : '',
+  cell9 : ''
 };
 
 // State modification functions
@@ -50,7 +23,35 @@ const clickACell = () => {
 };
 
 // Render functions
+const generateCell = (id) => {
+  const cellID = 'cell' + id;
+  const cellState = state[cellID];
+  return `<div class="cell" id="${id}">
+  <p>${cellState}</p>
+</div>`;
+};
+
 const renderBoard = () => {
+  //join up rows
+  let row1 = '';
+  for (let i = 1; i <3; i ++){
+    row1 += generateCell(i);
+  }
+  row1 = '<div class="row">' + row1 + '</div>';
+  let row2 = '';
+  for (let i = 4; i <6; i ++){
+    row2 += generateCell(i);
+  }
+  row2 = '<div class="row">' + row2 + '</div>';
+  let row3 = '';
+  for (let i = 7; i < 9; i ++){
+    row3 += generateCell(i);
+  }
+  row3 = '<div class="row">' + row3 + '</div>';
+
+  let board = row1 + row2 + row3;
+  // publish to DOM
+  $('.board').html(board);
 
 };
 // Event Listeners
