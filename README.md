@@ -158,7 +158,7 @@ function newGame() {
 
 Every time we change our state, we should run a render function, which is responsible for clearing out all or parts of the DOM and then re-rendering them based only on the current state. 
 
-The only dynamic part of our app is the board. It then needs to generate a new HTML snippet and then fully replace the old content in the DOM with the newly generated HTML. A good approach to this is to cut the snippet of HTML from the static `index.html` that currently exists and put it into a template string. Then we can insert dynamic data from the state where appropriate:
+The only dynamic part of our app is the board. This function needs to generate a new HTML snippet and fully replace the old content in the DOM with the newly generated HTML. A good approach to this is to use the content built from the static `index.html` file and put it into a JavaScript template literal string. Then we can insert dynamic data from the state where appropriate:
 
 ```javascript
 function renderBoard() {
