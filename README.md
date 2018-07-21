@@ -174,10 +174,10 @@ function renderBoard() {
             html += '<div class="row">';
         }
         
-        // 1. Add class to cell if it's part of winning pattern
-        // 2. Output blank space if cell data is null, otherwise output cell data
+        // Output blank character "&nbsp" if cell data is null, otherwise output cell data. Blank
+        // character helps since CSS reacts differently to elements with/without text content
         html += `
-            <div class="cell ${state.winPattern && state.winPattern.includes(ind) ? 'win' : ''}" id="${ind}">
+            <div class="cell" id="${ind}">
                 <p>${cell ? cell : '&nbsp;'}</p>
             </div>             
         `;
@@ -281,22 +281,22 @@ function setMove(cellNo) {
 }
 ```
 
-Inside our inner `renderRow()` function's loop, we need to check for if the `cellId` exists in our
+Inside the callback function where we generate each row, we need to check for if the `cellId` exists in our
 `winPattern` array:
 
 ```javascript
-    // inside the renderRow() function
     // [...]
-    for (let i = startId; i <= endId; i++) {
+    state.board.forEach((cell, ind) => {
         // `winClass` is a string to be placed in the `class` attribute on the HTML element
         // it'll either be 'win' to match our css class or empty string if no class should be added
         const winClass = state.winPattern.includes(i) ? 'win' : '';
 
         html += `
             <div class="cell ${winClass}" id="${i}">
-                <p>${state.board[i] ? state.board[i] : '&nbsp;' }</p>
+                <p>${cell ? cell : '&nbsp;' }</p>
             </div>
         `;
-    }
+
+    });
 
 ``` 
