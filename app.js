@@ -51,27 +51,27 @@ function setMove(cellNo) {
 
 // Render function
 function renderBoard() {
-    let html = '';
+  let html = '';
   
-    html += '<div class="board">';
+  html += '<div class="board">';
 
-    state.board.forEach((cell, ind) => {
-        if (ind === 0 || ind === 3 || ind === 6) {
-            html += '<div class="row">';
-        }
-        html += `
+  state.board.forEach((cell, ind) => {
+    if (ind === 0 || ind === 3 || ind === 6) {
+      html += '<div class="row">';
+    }
+    html += `
             <div class="cell ${state.winPattern && state.winPattern.includes(ind) ? 'win' : ''}" id="${ind}">
                 <p>${cell ? cell : '&nbsp;'}</p>
             </div>             
         `;
-        if (ind === 2 || ind === 5 || ind === 8) {
-            html += '</div>';
-        }
-    });
+    if (ind === 2 || ind === 5 || ind === 8) {
+      html += '</div>';
+    }
+  });
 
-    html += '</div>';
+  html += '</div>';
 
-    GAME_EL.html(html);
+  GAME_EL.html(html);
 }
 
 // Event Listeners
