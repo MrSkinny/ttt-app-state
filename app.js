@@ -49,34 +49,29 @@ function setMove(cellNo) {
   }
 }
 
-// Render functions
+// Render function
 function renderBoard() {
-  let html = '';
-  const renderRows = (board, winPattern) => {
     let html = '';
-    board.forEach((cell, ind) => {
-      if (ind === 0 || ind === 3 || ind === 6) {
-        html += '<div class="row">';
-      }
-      html += `
-                <div class="cell ${winPattern && winPattern.includes(ind) ? 'win' : ''}" id="${ind}">
-                    <p>${cell ? cell : '&nbsp;'}</p>
-                </div>             
-             `;
-      if (ind === 2 || ind === 5 || ind === 8) {
-        html += '</div>';
-      }
+  
+    html += '<div class="board">';
+
+    state.board.forEach((cell, ind) => {
+        if (ind === 0 || ind === 3 || ind === 6) {
+            html += '<div class="row">';
+        }
+        html += `
+            <div class="cell ${state.winPattern && state.winPattern.includes(ind) ? 'win' : ''}" id="${ind}">
+                <p>${cell ? cell : '&nbsp;'}</p>
+            </div>             
+        `;
+        if (ind === 2 || ind === 5 || ind === 8) {
+            html += '</div>';
+        }
     });
-    return html;
-  };
 
-  html += `
-        <div class="board">
-            ${renderRows(state.board, state.winPattern)}
-        </div>
-    `;
+    html += '</div>';
 
-  GAME_EL.html(html);
+    GAME_EL.html(html);
 }
 
 // Event Listeners
