@@ -162,6 +162,39 @@ The only dynamic part of our app is the board. It then needs to generate a new H
 
 ```javascript
 function renderBoard() {
+    let html = '';
+  
+    // Create the opening div:
+    html += '<div class="board">';
+
+    // Iterate each "row" in our `state.board`
+    state.board.forEach((cell, ind) => {
+        // If new row, open row div:
+        if (ind === 0 || ind === 3 || ind === 6) {
+            html += '<div class="row">';
+        }
+        
+        // 1. Add class to cell if it's part of winning pattern
+        // 2. Output blank space if cell data is null, otherwise output cell data
+        html += `
+            <div class="cell ${state.winPattern && state.winPattern.includes(ind) ? 'win' : ''}" id="${ind}">
+                <p>${cell ? cell : '&nbsp;'}</p>
+            </div>             
+        `;
+        
+        // Close row div:
+        if (ind === 2 || ind === 5 || ind === 8) {
+            html += '</div>';
+        }
+    });
+
+    html += '</div>';
+
+    GAME_EL.html(html);
+}
+```
+
+function renderBoard() {
     // renderRow function accepts start/end ids and generates a row of cells:
     const renderRow = (startId, endId) => {
         let html = '<div class="row">';
