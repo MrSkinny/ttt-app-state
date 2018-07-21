@@ -194,33 +194,6 @@ function renderBoard() {
 }
 ```
 
-function renderBoard() {
-    // renderRow function accepts start/end ids and generates a row of cells:
-    const renderRow = (startId, endId) => {
-        let html = '<div class="row">';
-        for (let i = startId; i <= endId; i++) {
-            // insert empty HTML character if there's `null` in board array
-            html += `
-                <div class="cell" id="${i}">
-                    <p>${state.board[i] ? state.board[i] : '&nbsp;' }</p>
-                </div>
-            `;
-        }
-        html += '</div>';
-        return html;
-    };
-
-    // run the renderRow() function for each row and concatenate into `html`
-    let html = '';
-    html += renderRow(0, 2);
-    html += renderRow(3, 5);
-    html += renderRow(6, 8);
-
-    // insert `html` into DOM element
-    $('.board').html(html);
-}
-```
-
 ### How to Write the Event Listeners
 
 #### onCellClick
